@@ -1,0 +1,6 @@
+.vagrant/
+**/.vagrant/
+*.vmdk
+*.vmx
+*.log
+*.lck

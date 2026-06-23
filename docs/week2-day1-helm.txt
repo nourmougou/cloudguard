@@ -1,0 +1,35 @@
+# Helm Notes
+
+## What is Helm?
+
+Package manager for Kubernetes.
+
+## Repository
+
+Collection of charts.
+
+## Chart
+
+Packaged Kubernetes application.
+
+## Release
+
+Installed chart.
+
+## Commands Learned
+
+helm version
+
+helm repo add
+
+helm repo list
+
+helm repo update
+
+helm search repo
+
+helm install
+
+helm list
+
+helm uninstall

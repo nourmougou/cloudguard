@@ -3,6 +3,7 @@ kind: Service
 
 metadata:
   name: demo-nginx
+  namespace: demo
 
 spec:
   selector:

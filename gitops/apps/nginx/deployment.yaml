@@ -6,7 +6,6 @@ metadata:
   namespace: demo
 
 spec:
-
   replicas: 1
 
   selector:
@@ -14,70 +13,71 @@ spec:
       app: demo-nginx
 
   template:
-
     metadata:
       labels:
         app: demo-nginx
 
     spec:
 
-      automountServiceAccountToken: false
-
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 101
-        fsGroup: 101
         seccompProfile:
           type: RuntimeDefault
 
-
       containers:
-
       - name: nginx
-
         image: nginx:1.27.0
 
         ports:
         - containerPort: 80
 
-
         securityContext:
-
           allowPrivilegeEscalation: false
-
           capabilities:
             drop:
             - ALL
-
           readOnlyRootFilesystem: true
 
-
         resources:
-
           requests:
             cpu: "100m"
             memory: "128Mi"
-
           limits:
-            cpu: "250m"
+            cpu: "500m"
             memory: "256Mi"
 
-
-        readinessProbe:
-
+        livenessProbe:
           httpGet:
             path: /
             port: 80
-
-          initialDelaySeconds: 5
+          initialDelaySeconds: 10
           periodSeconds: 10
 
-
-        livenessProbe:
-
+        readinessProbe:
           httpGet:
             path: /
             port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
 
-          initialDelaySeconds: 15
-          periodSeconds: 20
+        volumeMounts:
+
+        - name: nginx-cache
+          mountPath: /var/cache/nginx
+
+        - name: nginx-run
+          mountPath: /var/run
+
+        - name: nginx-temp
+          mountPath: /tmp
+
+
+      volumes:
+
+      - name: nginx-cache
+        emptyDir: {}
+
+      - name: nginx-run
+        emptyDir: {}
+
+      - name: nginx-temp
+        emptyDir: {}

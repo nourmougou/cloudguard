@@ -1,0 +1,30 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.71.2"
+  },
+  "ReportID": "019f31fa-cdef-738b-bf91-28f9601036d6",
+  "CreatedAt": "2026-07-05T11:12:28.143339592Z",
+  "ArtifactName": "network-policies",
+  "ArtifactType": "filesystem",
+  "Results": [
+    {
+      "Target": "allow-nginx.yaml",
+      "Class": "config",
+      "Type": "kubernetes",
+      "MisconfSummary": {
+        "Successes": 61,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "default-deny.yaml",
+      "Class": "config",
+      "Type": "kubernetes",
+      "MisconfSummary": {
+        "Successes": 61,
+        "Failures": 0
+      }
+    }
+  ]
+}

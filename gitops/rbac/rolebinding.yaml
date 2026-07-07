@@ -1,16 +1,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
-
 metadata:
-  name: read-pods-binding
-  namespace: secure-app
+  name: readonly-binding
+  namespace: demo
 
 subjects:
 - kind: ServiceAccount
-  name: app-reader
-  namespace: secure-app
+  name: readonly-user
+  namespace: demo
 
 roleRef:
-  kind: Role
-  name: pod-reader
   apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: readonly-pods

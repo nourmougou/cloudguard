@@ -1,0 +1,23 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 10,
+  "EndLine": 10,
+  "StartColumn": 6,
+  "EndColumn": 743,
+  "Match": "password: AgAzrjYp0JR5zgzTjRrBxZZaBHVwjQVp1qSX+roLAjKWrNFkItU3n/r85aM2QfjPIhTqPi5HY3DSxjh/Nss7qVChcJ8ww1jiN+wHoRBsAytH2Xpa/w/qexAf7Kyy+irBS3DhEdUNB7H+OxO5qiLI4GGEfgjWLrM9K8eWiOEy+B2xvBFcwkyjM75saGIIvBULU+LmbfpEbHfyvwdAI0iIOyNGNZqJ1w93F32UT5JPGKFGZYQDvRRsxhyRZZMWdAavfPbuMcv5Pj3N28/XnK62/t2tYfe4/w4RH2BNvIeI7UrIbGrhd9dWPBVh+0jdh2iOJyIDk1R+677Fq6LF8IwQKf+7UbYgTt5GA0UMgR0M7eiRs4TsarDn/dHK0lizFuSL0ZLzWQRlepPNgJ6RdVJS+k67MAFjIt+UGQq4Tw5XUwVnRDbGoCbG+Ihi2z2H6Xbq+jWissgAmWVEHSphUnqDC6lofAKVkaMtN0F0JA76GtldQUOQlObt1gXZ7RfTgo1F55t/biqfSQO8/PVvY9KHd+r7LJyOGV5TvxfBWZmELyh/+pV+VH/X6n0NdnCszxO8K8q7a9kyex+qaHb4ndvHNRO5cDz5dLj+Ye5L4Q7xfjGgnly2oWqaJP/aqAN1bWs1uaa2TbTJBmRHnvfyjr1QX40qckZ6qddeUnkU4s9NP0Z6xoFfITDtQmBXMQzZLs6PlMXIXgamAiZdo870/pp8AAU=",
+  "Secret": "AgAzrjYp0JR5zgzTjRrBxZZaBHVwjQVp1qSX+roLAjKWrNFkItU3n/r85aM2QfjPIhTqPi5HY3DSxjh/Nss7qVChcJ8ww1jiN+wHoRBsAytH2Xpa/w/qexAf7Kyy+irBS3DhEdUNB7H+OxO5qiLI4GGEfgjWLrM9K8eWiOEy+B2xvBFcwkyjM75saGIIvBULU+LmbfpEbHfyvwdAI0iIOyNGNZqJ1w93F32UT5JPGKFGZYQDvRRsxhyRZZMWdAavfPbuMcv5Pj3N28/XnK62/t2tYfe4/w4RH2BNvIeI7UrIbGrhd9dWPBVh+0jdh2iOJyIDk1R+677Fq6LF8IwQKf+7UbYgTt5GA0UMgR0M7eiRs4TsarDn/dHK0lizFuSL0ZLzWQRlepPNgJ6RdVJS+k67MAFjIt+UGQq4Tw5XUwVnRDbGoCbG+Ihi2z2H6Xbq+jWissgAmWVEHSphUnqDC6lofAKVkaMtN0F0JA76GtldQUOQlObt1gXZ7RfTgo1F55t/biqfSQO8/PVvY9KHd+r7LJyOGV5TvxfBWZmELyh/+pV+VH/X6n0NdnCszxO8K8q7a9kyex+qaHb4ndvHNRO5cDz5dLj+Ye5L4Q7xfjGgnly2oWqaJP/aqAN1bWs1uaa2TbTJBmRHnvfyjr1QX40qckZ6qddeUnkU4s9NP0Z6xoFfITDtQmBXMQzZLs6PlMXIXgamAiZdo870/pp8AAU=",
+  "File": "gitops/secrets/db-sealedsecret.yaml",
+  "SymlinkFile": "",
+  "Commit": "9f283c69981fdfe79f4c9f36235422c4c9537d09",
+  "Link": "https://github.com/nourmougou/cloudguard/blob/9f283c69981fdfe79f4c9f36235422c4c9537d09/gitops/secrets/db-sealedsecret.yaml#L10",
+  "Entropy": 5.9387994,
+  "Author": "vagrant",
+  "Email": "vagrant@cloudguard-master",
+  "Date": "2026-07-08T09:14:58Z",
+  "Message": "week 4 day 2 - first sealed secrest",
+  "Tags": [],
+  "Fingerprint": "9f283c69981fdfe79f4c9f36235422c4c9537d09:gitops/secrets/db-sealedsecret.yaml:generic-api-key:10"
+ }
+]

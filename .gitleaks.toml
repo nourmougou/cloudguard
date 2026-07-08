@@ -1,0 +1,7 @@
+title = "CloudGuard"
+
+[allowlist]
+paths = [
+  '''.*-sealedsecret\.yaml$'''
+]
+

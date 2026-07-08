@@ -29,7 +29,11 @@ spec:
 
         ports:
         - containerPort: 8080
-
+        envFrom:
+          - configMapRef:
+              name: app-config
+          - secretRef:
+              name: db-secret
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

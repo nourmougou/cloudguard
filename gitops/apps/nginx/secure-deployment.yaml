@@ -66,6 +66,10 @@ spec:
         - name: nginx-tmp
           mountPath: /tmp
 
+        - name: db-secret
+          mountPath: /etc/secrets
+          readOnly: true
+
       volumes:
 
       - name: nginx-cache
@@ -76,3 +80,7 @@ spec:
 
       - name: nginx-tmp
         emptyDir: {}
+ 
+      - name: db-secret
+        secret:
+          secretName: db-secret

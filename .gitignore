@@ -4,3 +4,5 @@
 *.vmx
 *.log
 *.lck
+gitleaks-report.json
+security-report/

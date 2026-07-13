@@ -9,7 +9,7 @@ spec:
 
   podSelector:
     matchLabels:
-      app: demo-nginx
+      app: secure-nginx
 
 
   policyTypes:

@@ -1,4 +1,4 @@
-name: CloudGuard CI
+name: CloudGuard Security Pipeline
 
 on:
   push:
@@ -7,8 +7,7 @@ on:
 
 jobs:
 
-  first-job:
-
+  checkov-scan:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,13 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Print Welcome Message
-        run: echo "CloudGuard CI is running successfully!"
-
-      - name: Show Current Directory
-        run: pwd
-
-      - name: List Repository Files
-        run: ls -la
- 
-      
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .

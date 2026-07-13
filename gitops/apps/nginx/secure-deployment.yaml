@@ -18,111 +18,82 @@ spec:
         app: secure-nginx
 
     spec:
+      automountServiceAccountToken: false
 
       securityContext:
         seccompProfile:
           type: RuntimeDefault
 
       containers:
-
       - name: nginx
         image: nginx:1.27.0
+        imagePullPolicy: Always
 
         ports:
         - containerPort: 8080
 
-
-        envFrom:
-
-        - configMapRef:
-            name: app-config
-
-        - secretRef:
-            name: db-secret
-
-
         securityContext:
-
           allowPrivilegeEscalation: false
-
           readOnlyRootFilesystem: true
-
           runAsNonRoot: true
-
           runAsUser: 10001
-
           runAsGroup: 10001
 
           capabilities:
-
             drop:
-
             - ALL
 
-
         resources:
-
           requests:
-
             cpu: "100m"
-
             memory: "128Mi"
 
-
           limits:
-
             cpu: "500m"
-
             memory: "256Mi"
 
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
 
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        envFrom:
+        - configMapRef:
+            name: app-config
 
         volumeMounts:
-
-
         - name: nginx-cache
-
           mountPath: /var/cache/nginx
 
-
         - name: nginx-run
-
           mountPath: /var/run
 
-
         - name: nginx-tmp
-
           mountPath: /tmp
 
-
         - name: db-secret-volume
-
           mountPath: /etc/secrets
-
           readOnly: true
 
-
-
       volumes:
-
-
       - name: nginx-cache
-
         emptyDir: {}
-
 
       - name: nginx-run
-
         emptyDir: {}
-
 
       - name: nginx-tmp
-
         emptyDir: {}
 
-
       - name: db-secret-volume
-
         secret:
-
           secretName: db-secret

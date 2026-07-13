@@ -1,0 +1,26 @@
+name: CloudGuard CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  first-job:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Print Welcome Message
+        run: echo "CloudGuard CI is running successfully!"
+
+      - name: Show Current Directory
+        run: pwd
+
+      - name: List Repository Files
+        run: ls -la

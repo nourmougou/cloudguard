@@ -70,15 +70,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Trivy Filesystem Scan
-        uses: aquasecurity/trivy-action@18f289c872365e0036109df077977eb7b93f21ef
-        with:
-          scan-type: fs
-          scan-ref: .
-          severity: HIGH,CRITICAL
-          exit-code: 1
-          format: table
-
+      - name: Run Trivy Filesystem Scan (via Docker)
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/apps \
+            aquasec/trivy:0.50.0 fs \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            /apps
 
   trivy-image:
     name: Trivy Nginx Image Scan

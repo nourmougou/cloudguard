@@ -1,7 +1,86 @@
-title = "CloudGuard"
+title = "CloudGuard Gitleaks Configuration"
+
+################################################################################
+# Extend the official Gitleaks rules
+################################################################################
+
+[extend]
+useDefault = true
+
+################################################################################
+# Allowlists
+################################################################################
 
 [allowlist]
+description = "Ignore encrypted Sealed Secrets"
+
 paths = [
-  '''.*-sealedsecret\.yaml$'''
+  '''.*-sealedsecret\.yaml$''',
+  '''.*db-sealedsecret\.yaml$'''
 ]
 
+################################################################################
+# CloudGuard Custom Rules
+################################################################################
+
+[[rules]]
+id = "cloudguard-password"
+
+description = "Detect plaintext passwords"
+
+regex = '''(?i)(password|passwd)\s*[:=]\s*["']?[A-Za-z0-9!@#$%^&*()_\-+=]{6,}["']?'''
+
+secretGroup = 0
+
+tags = [
+  "cloudguard",
+  "password"
+]
+
+################################################################################
+
+[[rules]]
+id = "cloudguard-api-key"
+
+description = "Detect plaintext API keys"
+
+regex = '''(?i)(api[_-]?key)\s*[:=]\s*["']?[A-Za-z0-9_\-]{10,}["']?'''
+
+secretGroup = 0
+
+tags = [
+  "cloudguard",
+  "apikey"
+]
+
+################################################################################
+
+[[rules]]
+id = "cloudguard-token"
+
+description = "Detect plaintext tokens"
+
+regex = '''(?i)(token)\s*[:=]\s*["']?[A-Za-z0-9._\-]{12,}["']?'''
+
+secretGroup = 0
+
+tags = [
+  "cloudguard",
+  "token"
+]
+
+################################################################################
+
+[[rules]]
+id = "cloudguard-secret"
+
+description = "Detect generic secrets"
+
+regex = '''(?i)(secret)\s*[:=]\s*["']?[A-Za-z0-9!@#$%^&*()_\-+=]{8,}["']?'''
+
+secretGroup = 0
+
+tags = [
+  "cloudguard",
+  "secret"
+]

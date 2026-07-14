@@ -86,10 +86,12 @@ jobs:
       - trivy-filesystem
 
     steps:
-      - name: Run Trivy Image Scan
-        uses: aquasecurity/trivy-action@v0.28.0
-        with:
-          image-ref: nginx:latest
-          severity: HIGH,CRITICAL
-          exit-code: 1
-          format: table
+      - name: Run Trivy Image Scan (via Docker)
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            aquasec/trivy:0.50.0 image \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            --format table \
+            nginx:latest

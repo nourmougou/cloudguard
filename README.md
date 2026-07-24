@@ -1,3 +1,4 @@
+[![CloudGuard Security Pipeline](https://github.com/nourmougou/cloudguard/actions/workflows/ci.yml/badge.svg)](https://github.com/nourmougou/cloudguard/actions/workflows/ci.yml)
 # CloudGuard
 
 ## Build Status

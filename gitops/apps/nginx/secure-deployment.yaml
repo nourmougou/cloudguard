@@ -33,7 +33,7 @@ spec:
         - containerPort: 8080
 
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 10001

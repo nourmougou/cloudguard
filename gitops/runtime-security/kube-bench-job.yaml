@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kube-bench
+  namespace: kube-system
+
+spec:
+  template:
+
+    spec:
+
+      hostPID: true
+
+      containers:
+
+      - name: kube-bench
+
+        image: aquasec/kube-bench:v0.14.1
+
+        command:
+
+        - kube-bench
+
+        args:
+
+        - "--benchmark"
+        - "k3s-cis-1.24"
+
+        volumeMounts:
+
+        - name: etc
+          mountPath: /etc
+
+        - name: var
+          mountPath: /var
+
+
+      restartPolicy: Never
+
+
+      volumes:
+
+      - name: etc
+
+        hostPath:
+
+          path: /etc
+
+
+      - name: var
+
+        hostPath:
+
+          path: /var

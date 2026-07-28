@@ -28,7 +28,7 @@ jobs:
           directory: gitops/
           output_format: json
           output_file_path: reports/checkov-report.json
-          skip_path: gitops/security/kube-bench-job.yaml
+          skip_path: gitops/runtime-security/kube-bench-job.yaml
   gitleaks-scan:
     name: Secret Detection
     runs-on: ubuntu-latest

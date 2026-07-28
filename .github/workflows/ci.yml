@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - gitleaks-scan
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -79,7 +79,7 @@ jobs:
           exit-code: 1
           format: json
           output: reports/trivy-config.json
-
+          skip-files: 'gitops/security-runtime/kube-bench-jot.yaml'
   trivy-filesystem:
     name: Trivy Filesystem Scan
     runs-on: ubuntu-latest

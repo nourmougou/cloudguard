@@ -79,7 +79,7 @@ jobs:
           exit-code: 1
           format: json
           output: reports/trivy-config.json
-          skip-files: 'gitops/security-runtime/kube-bench-jot.yaml'
+          skip-files: gitops/runtime-security/kube-bench-job.yaml
   trivy-filesystem:
     name: Trivy Filesystem Scan
     runs-on: ubuntu-latest

@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kube-hunter
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: kube-hunter
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kube-hunter
+      annotations:
+        checkov.io/skip1: CKV_K8S_38=Automounting service account token required to test API access
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: kube-hunter
+          image: public.ecr.aws/aquasecurity/kube-hunter:latest
+          args:
+            - "--pod"
+            - "--report"
+            - "json"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+            capabilities:
+              drop:
+                - ALL

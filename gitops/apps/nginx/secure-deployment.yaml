@@ -18,84 +18,88 @@ spec:
         app: secure-nginx
 
     spec:
+      serviceAccountName: readonly-user
       automountServiceAccountToken: false
 
       securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+
         seccompProfile:
           type: RuntimeDefault
 
       containers:
-        - name: nginx
+      - name: nginx
 
-          # Replace with your full digest or use nginx:latest
-          image: nginx:latest
-          imagePullPolicy: Always
+        image: nginx:latest
+        imagePullPolicy: Always
 
-          ports:
-            - containerPort: 80
+        ports:
+        - containerPort: 80
 
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 10001
-            runAsGroup: 10001
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          privileged: false
 
-            capabilities:
-              drop:
-                - ALL
+          capabilities:
+            drop:
+            - ALL
 
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
 
-            limits:
-              cpu: "500m"
-              memory: "256Mi"
+          limits:
+            cpu: 500m
+            memory: 256Mi
 
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
 
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          initialDelaySeconds: 10
+          periodSeconds: 10
 
-          envFrom:
-            - configMapRef:
-                name: app-config
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
 
-          volumeMounts:
-            - name: nginx-cache
-              mountPath: /var/cache/nginx
+          initialDelaySeconds: 5
+          periodSeconds: 5
 
-            - name: nginx-run
-              mountPath: /var/run
+        envFrom:
+        - configMapRef:
+            name: app-config
 
-            - name: nginx-tmp
-              mountPath: /tmp
-
-            - name: db-secret-volume
-              mountPath: /etc/secrets
-              readOnly: true
-
-      volumes:
+        volumeMounts:
         - name: nginx-cache
-          emptyDir: {}
+          mountPath: /var/cache/nginx
 
         - name: nginx-run
-          emptyDir: {}
+          mountPath: /var/run
 
         - name: nginx-tmp
-          emptyDir: {}
+          mountPath: /tmp
 
         - name: db-secret-volume
-          secret:
-            secretName: db-secret
+          mountPath: /etc/secrets
+          readOnly: true
+
+      volumes:
+      - name: nginx-cache
+        emptyDir: {}
+
+      - name: nginx-run
+        emptyDir: {}
+
+      - name: nginx-tmp
+        emptyDir: {}
+
+      - name: db-secret-volume
+        secret:
+          secretName: db-secret

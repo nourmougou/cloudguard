@@ -2,15 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 
 metadata:
-  name: default-deny-all
-  namespace: default
+  name: default-deny
+  namespace: demo
 
 spec:
   podSelector: {}
 
   policyTypes:
-    - Ingress
-    - Egress
+  - Ingress
+  - Egress
 
 ---
 
@@ -19,24 +19,26 @@ kind: NetworkPolicy
 
 metadata:
   name: allow-dns
-  namespace: default
+  namespace: demo
 
 spec:
   podSelector: {}
 
   policyTypes:
-    - Egress
+  - Egress
 
   egress:
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-      ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+
+    ports:
+    - protocol: UDP
+      port: 53
+
+    - protocol: TCP
+      port: 53
 
 ---
 
@@ -44,20 +46,19 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 
 metadata:
-  name: allow-same-namespace
-  namespace: default
+  name: allow-same-app
+  namespace: demo
 
 spec:
-  podSelector: {}
-
-  policyTypes:
-    - Ingress
-    - Egress
+  podSelector:
+    matchLabels:
+      app: secure-nginx
 
   ingress:
-    - from:
-        - podSelector: {}
+  - from:
+    - podSelector:
+        matchLabels:
+          app: secure-nginx
 
-  egress:
-    - to:
-        - podSelector: {}
+  policyTypes:
+  - Ingress

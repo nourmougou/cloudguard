@@ -1,0 +1,72 @@
+apiVersion: batch/v1
+kind: CronJob
+
+metadata:
+  name: kube-bench-nightly
+  namespace: kube-system
+
+spec:
+  schedule: "0 0 * * *"
+
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+
+    spec:
+
+      template:
+
+        spec:
+
+          restartPolicy: Never
+          hostPID: true
+
+          containers:
+
+          - name: kube-bench
+
+            image: aquasec/kube-bench:v0.14.1
+
+            command:
+              - kube-bench
+
+            args:
+              - "--benchmark"
+              - "k3s-cis-1.24"
+
+            volumeMounts:
+
+            - name: etc
+              mountPath: /etc
+              readOnly: true
+
+            - name: var
+              mountPath: /var
+              readOnly: true
+
+            - name: usr-bin
+              mountPath: /usr/bin
+              readOnly: true
+
+            - name: usr-local-bin
+              mountPath: /usr/local/bin
+              readOnly: true
+
+          volumes:
+
+          - name: etc
+            hostPath:
+              path: /etc
+
+          - name: var
+            hostPath:
+              path: /var
+
+          - name: usr-bin
+            hostPath:
+              path: /usr/bin
+
+          - name: usr-local-bin
+            hostPath:
+              path: /usr/local/bin

@@ -25,75 +25,77 @@ spec:
           type: RuntimeDefault
 
       containers:
-      - name: nginx
-        image: nginx@sha256:98f8ec75657d21b924fe4f69b6b9bff2f6550ea48838af479d8894a852000e40
-        imagePullPolicy: Always
+        - name: nginx
 
-        ports:
-        - containerPort: 8080
+          # Replace with your full digest or use nginx:latest
+          image: nginx:latest
+          imagePullPolicy: Always
 
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 10001
-          runAsGroup: 10001
+          ports:
+            - containerPort: 80
 
-          capabilities:
-            drop:
-            - ALL
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
 
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
+            capabilities:
+              drop:
+                - ALL
 
-          limits:
-            cpu: "500m"
-            memory: "256Mi"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
 
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 10
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
 
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
 
-        envFrom:
-        - configMapRef:
-            name: app-config
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
 
-        volumeMounts:
-        - name: nginx-cache
-          mountPath: /var/cache/nginx
+          envFrom:
+            - configMapRef:
+                name: app-config
 
-        - name: nginx-run
-          mountPath: /var/run
+          volumeMounts:
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
 
-        - name: nginx-tmp
-          mountPath: /tmp
+            - name: nginx-run
+              mountPath: /var/run
 
-        - name: db-secret-volume
-          mountPath: /etc/secrets
-          readOnly: true
+            - name: nginx-tmp
+              mountPath: /tmp
+
+            - name: db-secret-volume
+              mountPath: /etc/secrets
+              readOnly: true
 
       volumes:
-      - name: nginx-cache
-        emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
 
-      - name: nginx-run
-        emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
 
-      - name: nginx-tmp
-        emptyDir: {}
+        - name: nginx-tmp
+          emptyDir: {}
 
-      - name: db-secret-volume
-        secret:
-          secretName: db-secret
+        - name: db-secret-volume
+          secret:
+            secretName: db-secret

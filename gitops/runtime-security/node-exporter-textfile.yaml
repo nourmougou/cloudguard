@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: DaemonSet
+
+metadata:
+  name: node-exporter
+  namespace: monitoring
+
+spec:
+  selector:
+    matchLabels:
+      app: node-exporter
+
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+
+    spec:
+      hostNetwork: true
+      hostPID: true
+
+      containers:
+      - name: node-exporter
+
+        image: prom/node-exporter:latest
+
+        args:
+          - --path.rootfs=/host
+          - --collector.textfile.directory=/textfile
+
+        ports:
+        - containerPort: 9100
+
+        volumeMounts:
+
+        - name: root
+          mountPath: /host
+          readOnly: true
+
+        - name: textfile
+          mountPath: /textfile
+
+      volumes:
+
+      - name: root
+        hostPath:
+          path: /
+
+      - name: textfile
+        hostPath:
+          path: /var/lib/node_exporter/textfile_collector

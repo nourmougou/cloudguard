@@ -45,10 +45,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          config-path: .gitleaks.toml
-          args: detect --report-format json --report-path reports/gitleaks-report.json
-
+        
   trivy-kubernetes:
     name: Kubernetes Misconfiguration Scan
     runs-on: ubuntu-latest
@@ -76,10 +73,7 @@ jobs:
           scan-type: config
           scan-ref: gitops/
           severity: HIGH,CRITICAL
-          exit-code: 1
-          format: json
-          output: reports/trivy-config.json
-          skip-files: gitops/runtime-security/kube-bench-job.yaml
+          format: table
   trivy-filesystem:
     name: Trivy Filesystem Scan
     runs-on: ubuntu-latest

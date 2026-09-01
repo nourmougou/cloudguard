@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudguard-mock-ai
+  namespace: ai-security
+  labels:
+    app: cloudguard-mock-ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudguard-mock-ai
+  template:
+    metadata:
+      labels:
+        app: cloudguard-mock-ai
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: cloudguard-master
+      containers:
+        - name: mock-ai
+          image: cloudguard-mock-ai:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+     

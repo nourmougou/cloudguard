@@ -6,3 +6,7 @@
 *.lck
 gitleaks-report.json
 security-report/
+venv/
+__pycache__/
+*.pyc
+.env

@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: cloudguard-master
       containers:
         - name: mock-ai
-          image: cloudguard-mock-ai:1.0
+          image: cloudguard-mock-ai:1.1
           imagePullPolicy: Never
           ports:
             - containerPort: 8080

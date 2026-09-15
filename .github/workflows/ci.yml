@@ -158,3 +158,74 @@ jobs:
         with:
           name: security-reports
           path: reports/
+  ai-security:
+    name: AI Security Scan
+    runs-on: [self-hosted, linux, x64]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify Kubernetes cluster
+        run: |
+          echo "Checking Kubernetes cluster..."
+          kubectl get nodes
+
+      - name: Verify AI service
+        run: |
+          echo "Checking AI service..."
+          kubectl get pods -n ai-security
+          kubectl get svc -n ai-security
+
+      - name: Run AI security scan
+        run: |
+          echo "Starting CloudGuard AI security scan..."
+
+          kubectl delete job cloudguard-ai-ci-scan \
+            -n ai-security \
+            --ignore-not-found
+
+          kubectl create job \
+            --from=cronjob/cloudguard-ai-nightly \
+            cloudguard-ai-ci-scan \
+            -n ai-security
+
+      - name: Wait for AI security scan
+        run: |
+          echo "Waiting for AI security scan..."
+
+          for i in {1..60}; do
+
+            SUCCEEDED=$(kubectl get job cloudguard-ai-ci-scan \
+              -n ai-security \
+              -o jsonpath='{.status.succeeded}')
+
+            FAILED=$(kubectl get job cloudguard-ai-ci-scan \
+              -n ai-security \
+              -o jsonpath='{.status.failed}')
+
+            if [ "$SUCCEEDED" = "1" ]; then
+              echo "AI security scan completed successfully."
+              exit 0
+            fi
+
+            if [ "$FAILED" = "1" ]; then
+              echo "AI security scan FAILED."
+              kubectl logs job/cloudguard-ai-ci-scan -n ai-security
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          echo "AI security scan timed out."
+          kubectl logs job/cloudguard-ai-ci-scan -n ai-security || true
+          exit 1
+
+      - name: Display AI security report
+        if: always()
+        run: |
+          echo "========== AI SECURITY REPORT =========="
+          kubectl logs job/cloudguard-ai-ci-scan \
+            -n ai-security || true
